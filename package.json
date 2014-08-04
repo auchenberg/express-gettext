@@ -1,0 +1,22 @@
+{
+  "name": "express-gettext",
+  "description": "An i18n middleware for the Express.js framework.",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/auchenberg/express-gettext.git"
+  },
+  "author": "Kenneth Auchenberg <kenneth@auchenberg.dk>",
+  "license": "MIT",
+  "main": "./lib/lingua.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "engines": {
+    "node": ">= 0.6.x"
+  },
+  "dependencies": {
+    "glob": "~4.0.5",
+    "node-gettext": "~0.2.14"
+  }
+}
