@@ -4,6 +4,6 @@
   "private": true,
   "dependencies": {
     "ejs": "0.8.x",
-    "express": "4.x.x"
+    "express": "3.x.x"
   }
 }
