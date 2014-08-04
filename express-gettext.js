@@ -10,10 +10,11 @@ module.exports = function(app, options) {
     var gt = new Gettext();
 
     // Defaults
-    options.defaultLocale   = (options.defaultLocale || 'en-US').toLowerCase();
-    options.currentLocale   = (options.currentLocale || 'en-US').toLowerCase();
-    options.directory       = (options.directory || 'locales');
-    options.alias           = options.alias || 'gettext';
+    options.defaultLocale               = (options.defaultLocale || 'en-US').toLowerCase();
+    options.currentLocale               = (options.currentLocale || 'en-US').toLowerCase();
+    options.directory                   = (options.directory || 'locales');
+    options.alias                       = options.alias || 'gettext';
+    options.useAcceptedLangugeHeader    = options.useAcceptedLangugeHeader || true;
 
     // Load translations from PO files
     var dirPath = path.join(options.directory, "**/*.po");
@@ -67,6 +68,15 @@ module.exports = function(app, options) {
 
         res.locals[options.alias] = getText;
         req.setCurrentLocale = setCurrentLocale;
+
+        if(options.useAcceptedLangugeHeader) {
+
+            // Use first match from accepted languages header
+            if(req.acceptedLanguages.length) {
+                req.setCurrentLocale(req.acceptedLanguages[0]);
+            }
+
+        }
 
         next();
     };

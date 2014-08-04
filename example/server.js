@@ -10,7 +10,8 @@ app.set('view engine', 'ejs');
 
 // Gettext configuration
 app.use(gettext(app, {
-    directory: __dirname + '/locales'
+    directory: __dirname + '/locales',
+    useAcceptedLangugeHeader: true
 }));
 
 app.use(express.static(__dirname + '/public'));
