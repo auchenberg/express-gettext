@@ -8,7 +8,7 @@
   },
   "author": "Kenneth Auchenberg <kenneth@auchenberg.dk>",
   "license": "MIT",
-  "main": "./lib/lingua.js",
+  "main": "express-gettext.js",
   "directories": {
     "lib": "lib"
   },
