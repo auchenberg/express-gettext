@@ -17,3 +17,7 @@ msgstr "Welcome"
 #: app/core/components/mediaDeviceSelector/mediaDeviceSelector.html
 msgid "This is a translated string"
 msgstr "This is a translated string"
+
+#: app/core/components/mediaDeviceSelector/mediaDeviceSelector.html
+msgid "This is a fallback string in default language"
+msgstr "This is a fallback string in default language"

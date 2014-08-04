@@ -10,13 +10,17 @@ app.set('view engine', 'ejs');
 
 // Gettext configuration
 app.use(gettext(app, {
-    defaultLocale: 'de-de',
     directory: __dirname + '/locales'
 }));
 
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
+
+    if(req.query && req.query.locale) {
+        req.setCurrentLocale(req.query.locale);
+    }
+
     res.render('index');
 });
 
