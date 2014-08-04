@@ -1,6 +1,7 @@
 var fs = require('fs');
 var Gettext = require('node-gettext');
 var glob = require("glob")
+var path = require("path")
 
 module.exports = function(app, options) {
 
@@ -14,7 +15,9 @@ module.exports = function(app, options) {
     options.alias = options.alias || 'gettext';
 
     // Load translations from PO files
-    glob(options.directory + "**/*.po", {}, function (err, files) {
+    var dirPath = path.join(options.directory, "**/*.po");
+
+    glob(dirPath, {}, function (err, files) {
 
         if(err) {
             logger.error('err', err);
@@ -23,8 +26,7 @@ module.exports = function(app, options) {
         files.forEach(function(file) {
 
             var fileContents = fs.readFileSync(file);
-            var locale = file.match(/[a-z]{2}_[A-Z]{2}/)[0]; // Extract locale from path
-
+            var locale = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('_','-').toLowerCase(); // Extract locale from path
             gt.addTextdomain(locale, fileContents);
 
         });
@@ -33,7 +35,7 @@ module.exports = function(app, options) {
 
     var getText = function(textKey, locale) {
 
-        var currentLocale = locale || options.currentLanguage;
+        var currentLocale = (locale || options.currentLanguage).toLowerCase();
         var text = gt.gettext(textKey, currentLocale);
 
         logger.log('getText', text, currentLocale);
