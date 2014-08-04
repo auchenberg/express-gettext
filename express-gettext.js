@@ -10,9 +10,10 @@ module.exports = function(app, options) {
     var gt = new Gettext();
 
     // Defaults
-    options.defaultLanguage = options.defaultLanguage || 'en-US';
-    options.currentLanguage = options.currentLanguage || 'en-US';
-    options.alias = options.alias || 'gettext';
+    options.defaultLocale   = (options.defaultLocale || 'en-US').toLowerCase();
+    options.currentLocale   = (options.currentLocale || 'en-US').toLowerCase();
+    options.directory       = (options.directory || 'locales');
+    options.alias           = options.alias || 'gettext';
 
     // Load translations from PO files
     var dirPath = path.join(options.directory, "**/*.po");
