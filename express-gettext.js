@@ -54,14 +54,20 @@ module.exports = function(app, options) {
 
     }
 
+    var setCurrentLocale = function(language) {
+        options.currentLocale = language;
+    }
+
     // Setup locals for Express
     app.locals[options.alias] = getText;
     app.locals.currentLocale = options.currentLocale;
+    app.locals.setCurrentLocale = setCurrentLocale;
 
     // Return middelware function to map locals on Request
     return function(req, res, next) {
 
         res.locals[options.alias] = getText;
+        req.setCurrentLocale = setCurrentLocale;
 
         next();
     };
