@@ -45,7 +45,6 @@ module.exports = function(app, options) {
         }
 
         if(!text) {
-            logger.log('getText.fallback.missing');
             // Fallback to text key
             text = '[MISSING]' + textKey;
         }
