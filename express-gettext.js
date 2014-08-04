@@ -35,15 +35,12 @@ module.exports = function(app, options) {
 
     var getText = function(textKey, locale) {
 
-        var currentLocale = (locale || options.currentLanguage).toLowerCase();
-        var text = gt.gettext(textKey, currentLocale);
-
-        logger.log('getText', text, currentLocale);
+        var currentLocale = (locale || options.currentLocale).toLowerCase();
+        var text = gt._getTranslation(currentLocale, textKey);
 
         if(!text) {
             // Fallback to default langauge
-            logger.log('getText.fallback.default');
-            text = gt.gettext(textKey, options.defaultLanguage);
+            text = gt._getTranslation(options.defaultLocale, textKey);
         }
 
         if(!text) {
@@ -58,7 +55,7 @@ module.exports = function(app, options) {
 
     // Setup locals for Express
     app.locals[options.alias] = getText;
-    app.locals.currentLanguage = options.currentLanguage;
+    app.locals.currentLocale = options.currentLocale;
 
     // Return middelware function to map locals on Request
     return function(req, res, next) {
