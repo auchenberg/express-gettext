@@ -1,6 +1,6 @@
-<!doctype html> 
-<html lang="<%= currentLanguage %>"> 
-    <head> 
+<!doctype html>
+<html lang="<%= currentLanguage %>">
+    <head>
         <title>express-gettext example</title>
     </head>
 
@@ -9,15 +9,15 @@
             <nav>
                 <ul>
                     <li><a href="?language=de-de">German</a></li>
-                    <li><a href="?language=en">English</a></li>
-                </ul>        
+                    <li><a href="?language=en-us">English</a></li>
+                </ul>
             </nav>
 
             <article>
                 <header>
                     <hgroup>
-                        <h1><%= gettext('Welcome to the underground') %></h1>
-                        <h2><%= gettext('Lets get the party started') %></h2>
+                        <h1><%= gettext('Welcome') %></h1>
+                        <h2><%= gettext('This is a translated string') %></h2>
                     </hgroup>
                 </header>
             </article>

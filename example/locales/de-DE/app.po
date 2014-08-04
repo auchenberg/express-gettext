@@ -1,0 +1,19 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: express-gettext\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: Kenneth Auchenberg\n"
+"Language-Team: English, United States\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2014-07-30 10:15-0400\n"
+
+#: app/core/components/bottom-bar/bottom-bar.html
+msgid "Welcome"
+msgstr "willkommen"
+
+#: app/core/components/mediaDeviceSelector/mediaDeviceSelector.html
+msgid "This is a translated string"
+msgstr "Dies ist eine übersetzte String"
