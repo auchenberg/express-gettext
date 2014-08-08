@@ -10,6 +10,22 @@ The middelware exposes two properties on the ``app`` object:
 ```
 app.setCurrentLocale -> Method to set the current locale 
 app.currentLocale -> Getter to get the current locale
+req[alias] -> translate method
+```
+
+Properties on the ```req`` object:
+```
+req.setCurrentLocale -> Method to set the current locale 
+req.currentLocale -> Getter to get the current locale
+req[alias] -> translate method
+```
+### Options
+```
+{
+    directory: -> The directory of PO files
+    useAcceptedLangugeHeader: true
+    alias -> The alias of the translate method (default 'gettext')
+}
 ```
 
 ### Locale detection
