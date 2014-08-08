@@ -1,7 +1,19 @@
 express-gettext
 ===============
 
-Translation module for express.js using Gettext and PO files
+Translation middelware for express.js using Gettext and PO files. 
+
+I coulnd't find any existing middelware that used PO files as the translation source (without convertig them to JSON first), so there is a simple middelware that loads PO files, and exposes a simple getttext translate method on the ``request`` and ``app`` object to allow translations to be looked up from the server and in views.
+
+### Properties
+The middelware exposes two properties on the ``app`` object:
+```
+app.setCurrentLocale -> Method to set the current locale 
+app.currentLocale -> Getter to get the current locale
+```
+
+### Locale detection
+The middelware also has cruide locale detection based upon the acceptedLangaugeHeader, which can be toggled with the ```useAcceptedLanguageHeader``` option.
 
 ### Example:
 
