@@ -10,9 +10,9 @@ module.exports = function(app, options) {
     var gt = new Gettext();
 
     // Defaults
-    options.defaultLocale               = (options.defaultLocale || 'en-US').toLowerCase();
-    options.currentLocale               = (options.currentLocale || 'en-US').toLowerCase();
-    options.directory                   = (options.directory || 'locales');
+    options.defaultLocale               = options.defaultLocale || 'en-US';
+    options.currentLocale               = options.currentLocale || 'en-US';
+    options.directory                   = options.directory || 'locales';
     options.alias                       = options.alias || 'gettext';
     options.useAcceptedLangugeHeader    = options.useAcceptedLangugeHeader || true;
 
@@ -37,12 +37,12 @@ module.exports = function(app, options) {
 
     var getText = function(textKey, locale) {
 
-        var currentLocale = (locale || options.currentLocale).toLowerCase();
-        var text = gt._getTranslation(currentLocale, textKey);
+        var currentLocale = locale || options.currentLocale;
+        var text = gt._getTranslation(currentLocale.toLowerCase(), textKey);
 
         if(!text) {
             // Fallback to default langauge
-            text = gt._getTranslation(options.defaultLocale, textKey);
+            text = gt._getTranslation(options.defaultLocale.toLowerCase(), textKey);
         }
 
         if(!text) {
