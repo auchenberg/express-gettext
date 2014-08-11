@@ -13,7 +13,10 @@ module.exports = function(app, options) {
     // Default options
     options.directory                   = options.directory || 'locales';
     options.alias                       = options.alias || 'gettext';
-    options.useAcceptedLangugeHeader    = options.useAcceptedLangugeHeader || true;
+    options.detectors                   = options.detectors || {
+        header: 'accept-language',
+        query: 'locale'
+    }
 
     // Locales
     var localeDetector;
@@ -89,8 +92,15 @@ module.exports = function(app, options) {
     // Return middelware function to map locals on Request
     return function(req, res, next) {
 
-        if(options.useAcceptedLangugeHeader) {
-            var locales = new locale.Locales(req.headers["accept-language"])
+        if(options.detectors.header) {
+            var locales = new locale.Locales(req.headers[options.detectors.header])
+            var matchedLocale = locales.best(supportedLocales);
+
+            setCurrentLocale(matchedLocale.normalized);
+        }
+
+        if(options.detectors.query) {
+            var locales = new locale.Locales(req.query[options.detectors.query])
             var matchedLocale = locales.best(supportedLocales);
 
             setCurrentLocale(matchedLocale.normalized);
