@@ -2,6 +2,7 @@ var fs = require('fs');
 var Gettext = require('node-gettext');
 var glob = require("glob")
 var path = require("path")
+var locale = require("locale");
 
 module.exports = function(app, options) {
 
@@ -9,17 +10,23 @@ module.exports = function(app, options) {
     var logger = options.logger || console;
     var gt = new Gettext();
 
-    // Defaults
-    options.defaultLocale               = options.defaultLocale || 'en-US';
-    options.currentLocale               = options.currentLocale || 'en-US';
+    // Default options
     options.directory                   = options.directory || 'locales';
     options.alias                       = options.alias || 'gettext';
     options.useAcceptedLangugeHeader    = options.useAcceptedLangugeHeader || true;
+
+    // Locales
+    var localeDetector;
+    var supportedLocales    = [];
+    var defaultLocale       = options.defaultLocale || 'en-US';
+    var currentLocale       = options.currentLocale || 'en-US';
 
     // Load translations from PO files
     var dirPath = path.join(options.directory, "**/*.po");
 
     glob(dirPath, {}, function (err, files) {
+
+        var locales = []
 
         if(err) {
             logger.error('err', err);
@@ -28,21 +35,29 @@ module.exports = function(app, options) {
         files.forEach(function(file) {
 
             var fileContents = fs.readFileSync(file);
-            var locale = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('_','-').toLowerCase(); // Extract locale from path
-            gt.addTextdomain(locale, fileContents);
+            var locale = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('-','_').toLowerCase(); // Extract locale from path
+
+            if(locale) {
+                locales.push(locale);
+                gt.addTextdomain(locale, fileContents);
+            }
 
         });
+
+        supportedLocales = new locale.Locales(locales);
+        localeDetector = locale(supportedLocales);
 
     });
 
     var getText = function(textKey, locale) {
 
-        var currentLocale = locale || options.currentLocale;
-        var text = gt._getTranslation(currentLocale.toLowerCase(), textKey);
+        var targetLocale = (locale || currentLocale).toLowerCase();
+        var text = gt._getTranslation(targetLocale, textKey);
 
         if(!text) {
             // Fallback to default langauge
-            text = gt._getTranslation(options.defaultLocale.toLowerCase(), textKey);
+            var locale = defaultLocale.toLowerCase();
+            text = gt._getTranslation(locale, textKey);
         }
 
         if(!text) {
@@ -54,29 +69,36 @@ module.exports = function(app, options) {
 
     }
 
-    var setCurrentLocale = function(language) {
-        options.currentLocale = language;
+    var setCurrentLocale = function(locale) {
+        currentLocale = locale;
+    };
+
+    var getCurrentLocale = function() {
+        return currentLocale;
+    };
+
+    var getFormattedLocale = function() {
+        return getCurrentLocale().replace('_', '-');
     }
 
     // Setup locals for Express
     app.locals[options.alias] = getText;
-    app.locals.currentLocale = options.currentLocale;
+    app.locals.getCurrentLocale = getFormattedLocale;
     app.locals.setCurrentLocale = setCurrentLocale;
 
     // Return middelware function to map locals on Request
     return function(req, res, next) {
 
+        if(options.useAcceptedLangugeHeader) {
+            var locales = new locale.Locales(req.headers["accept-language"])
+            var matchedLocale = locales.best(supportedLocales);
+
+            setCurrentLocale(matchedLocale.normalized);
+        }
+
         res.locals[options.alias] = getText;
         req.setCurrentLocale = setCurrentLocale;
-
-        if(options.useAcceptedLangugeHeader) {
-
-            // Use first match from accepted languages header
-            if(req.acceptedLanguages.length) {
-                req.setCurrentLocale(req.acceptedLanguages[0]);
-            }
-
-        }
+        req.getCurrentLocale = getFormattedLocale;
 
         next();
     };
