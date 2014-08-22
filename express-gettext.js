@@ -84,10 +84,17 @@ module.exports = function(app, options) {
         return getCurrentLocale().replace('_', '-');
     }
 
+    var getSupportedLocales = function() {
+        return supportedLocales.toJSON().map(function(locale) {
+            return locale.normalized;
+        });
+    }
+
     // Setup locals for Express
     app.locals[options.alias] = getText;
     app.locals.getCurrentLocale = getFormattedLocale;
     app.locals.setCurrentLocale = setCurrentLocale;
+    app.locals.getSupportedLocales = getSupportedLocales;
 
     // Return middelware function to map locals on Request
     return function(req, res, next) {
@@ -109,6 +116,7 @@ module.exports = function(app, options) {
         res.locals[options.alias] = getText;
         req.setCurrentLocale = setCurrentLocale;
         req.getCurrentLocale = getFormattedLocale;
+        req.getSupportedLocales = getSupportedLocales;
 
         next();
     };
