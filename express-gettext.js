@@ -15,7 +15,7 @@ module.exports = function(app, options) {
     options.alias                       = options.alias || 'gettext';
     options.detectors                   = options.detectors || {
         header: 'accept-language',
-        query: 'locale'
+        query:  'locale'
     }
 
     // Locales
