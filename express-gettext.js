@@ -41,7 +41,11 @@ module.exports = function(app, options) {
             var locale = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('-','_').toLowerCase(); // Extract locale from path
 
             if(locale) {
-                locales.push(locale);
+
+                if(locales.indexOf(locale) == -1) {
+                    locales.push(locale);
+                }
+
                 gt.addTextdomain(locale, fileContents);
             }
 
