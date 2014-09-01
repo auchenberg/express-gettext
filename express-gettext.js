@@ -110,7 +110,7 @@ module.exports = function(app, options) {
             setCurrentLocale(matchedLocale.normalized);
         }
 
-        if(options.detectors.query) {
+        if(options.detectors.query && req.query[options.detectors.query]) {
             var locales = new locale.Locales(req.query[options.detectors.query])
             var matchedLocale = locales.best(supportedLocales);
 
