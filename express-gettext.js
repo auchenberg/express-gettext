@@ -21,8 +21,8 @@ module.exports = function(app, options) {
     // Locales
     var localeDetector;
     var supportedLocales    = [];
-    var defaultLocale       = options.defaultLocale || 'en-US';
-    var currentLocale       = options.currentLocale || 'en-US';
+    var defaultLocale       = options.defaultLocale || 'en_US';
+    var currentLocale       = options.currentLocale || 'en_US';
 
     // Load translations from PO files
     var dirPath = path.join(options.directory, "**/*.po");
