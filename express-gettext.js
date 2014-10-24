@@ -38,15 +38,15 @@ module.exports = function(app, options) {
         files.forEach(function(file) {
 
             var fileContents = fs.readFileSync(file);
-            var locale = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('-','_').toLowerCase(); // Extract locale from path
+            var localeKey = file.match(/[a-z]{2}(-|_)[A-Z]{2}/)[0].replace('-','_').toLowerCase(); // Extract locale from path
 
-            if(locale) {
+            if(localeKey) {
 
-                if(locales.indexOf(locale) == -1) {
-                    locales.push(locale);
+                if(locales.indexOf(localeKey) == -1) {
+                    locales.push(localeKey);
                 }
 
-                gt.addTextdomain(locale, fileContents);
+                gt.addTextdomain(localeKey, fileContents);
             }
 
         });
@@ -56,15 +56,14 @@ module.exports = function(app, options) {
 
     });
 
-    var getText = function(textKey, locale) {
+    var getText = function(textKey, localeKey) {
 
-        var targetLocale = (locale || currentLocale).toLowerCase();
+        var targetLocale = (localeKey || currentLocale).toLowerCase();
         var text = gt._getTranslation(targetLocale, textKey);
 
         if(!text) {
             // Fallback to default langauge
-            var locale = defaultLocale.toLowerCase();
-            text = gt._getTranslation(locale, textKey);
+            text = gt._getTranslation(defaultLocale, textKey);
         }
 
         if(!text) {
@@ -76,8 +75,8 @@ module.exports = function(app, options) {
 
     }
 
-    var setCurrentLocale = function(locale) {
-        currentLocale = locale;
+    var setCurrentLocale = function(newLocale) {
+        currentLocale = newLocale;
     };
 
     var getCurrentLocale = function() {
@@ -89,8 +88,8 @@ module.exports = function(app, options) {
     }
 
     var getSupportedLocales = function() {
-        return supportedLocales.toJSON().map(function(locale) {
-            return locale.normalized;
+        return supportedLocales.toJSON().map(function(supportedLocale) {
+            return supportedLocale.normalized;
         });
     }
 
