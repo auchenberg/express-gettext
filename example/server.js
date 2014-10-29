@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 // Gettext configuration
 app.use(gettext(app, {
     directory: __dirname + '/locales',
-    useAcceptedLangugeHeader: true
+    useAcceptedLanguageHeader: true
 }));
 
 app.use(express.static(__dirname + '/public'));
@@ -26,5 +26,5 @@ app.get('/', function(req, res) {
 });
 
 app.listen(app.get('port'), function() {
-    console.log("App istening on port " + app.get('port'));
+    console.log("App listening on port " + app.get('port'));
 });

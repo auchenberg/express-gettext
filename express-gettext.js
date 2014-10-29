@@ -100,7 +100,7 @@ module.exports = function(app, options) {
     app.locals.setCurrentLocale = setCurrentLocale;
     app.locals.getSupportedLocales = getSupportedLocales;
 
-    // Return middelware function to map locals on Request
+    // Return middleware function to map locals on Request
     return function(req, res, next) {
 
         if(options.detectors.header) {
