@@ -3,21 +3,22 @@ express-gettext
 
 Translation middleware for express.js using Gettext and PO files. 
 
-I couldn't find any existing middleware that used PO files as the translation source (without converting them to JSON first), so there is a simple middleware that loads PO files, and exposes a simple gettext translate method on the ``request`` and ``app`` object to allow translations to be looked up from the server and in views.
+I couldn't find any existing middleware that used PO files as the translation source (without converting them to JSON first), so there is a simple middleware that loads PO files, and exposes a simple gettext translate method on the ``response`` and ``app`` object to allow translations to be looked up from the server and in views.
 
 ### Properties
-The middleware exposes two properties on the ``app`` object:
+The middleware exposes some methods on the ``app`` object. They use on the application's "default" locale:
 ```
-app.setCurrentLocale -> Method to set the current locale 
-app.currentLocale -> Getter to get the current locale
-req[alias] -> translate method
+app.setLocale -> Method to set the default locale
+app.getLocale || app.locals.getLocale || app.getDefaultLocale -> Methods to get the default locale
+app[alias] || app.locals[alias] -> translate method (using the default locale)
 ```
 
-Properties on the ```req`` object:
+Properties on the ```res`` object:
 ```
-req.setCurrentLocale -> Method to set the current locale 
-req.currentLocale -> Getter to get the current locale
-req[alias] -> translate method
+res.setLocale -> Method to set the current locale 
+res.getLocale || res.locals.getLocale -> Method to get the current locale
+res.getDefaultLocale -> Method to get the default (application) locale
+res[alias] || res.locals[alias] -> translate method
 ```
 ### Options
 ```

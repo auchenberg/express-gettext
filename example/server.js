@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
 
     if(req.query && req.query.locale) {
-        req.setCurrentLocale(req.query.locale);
+        res.setLocale(req.query.locale);
     }
 
     res.render('index');
