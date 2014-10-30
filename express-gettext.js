@@ -80,10 +80,6 @@ module.exports = function(app, options) {
     app.locals.getLocale = getLocale.bind(app);
     app.locals.getSupportedLocales = getSupportedLocales;
 
-    // For backwards compatibility
-    app.locals.setCurrentLocale = setLocale.bind(app);
-    app.locals.getCurrentLocale = app.locals.getLocale;
-
     // Return middleware function to map locals on Response
     return function(req, res, next) {
 
@@ -103,11 +99,6 @@ module.exports = function(app, options) {
 
         // Just to make sure it's accessible (some view engines don't inherit app's locals)
         res.locals.getSupportedLocales = getSupportedLocales;
-
-        // backward compatibility helpers (not sure why we need locale on request object)
-        req.setCurrentLocale = setLocale.bind(res);
-        req.getCurrentLocale = getLocale.bind(res);
-        req.getSupportedLocales = getSupportedLocales;
 
         if(options.detectors.header) {
             var locales = new locale.Locales(req.headers[options.detectors.header])
