@@ -1,7 +1,7 @@
 {
   "name": "express-gettext",
   "description": "An i18n middleware for the Express.js framework.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/auchenberg/express-gettext.git"
