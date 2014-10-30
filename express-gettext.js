@@ -170,7 +170,7 @@ function isExpressApp(app) {
 function getText(textKey, locale) {
 
     var app = getExpressApp(this);
-    var gt = app.set('gettext instance');
+    var gt = app.get('gettext instance');
 
     var targetLocaleKey = getLocaleKey(locale || this.getLocale());
     var text = gt._getTranslation(targetLocaleKey, textKey);
