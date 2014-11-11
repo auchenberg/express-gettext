@@ -16,7 +16,8 @@ module.exports = function(app, options) {
     options.detectors                   = options.detectors || {
         header: 'accept-language',
         query:  'locale'
-    }
+    };
+    options.fallback                    = options.fallback || defaultFallback;
 
     // Locales
     var localeDetector;
@@ -73,6 +74,7 @@ module.exports = function(app, options) {
     app[options.alias] = getText;
 
     app.set('gettext instance', gt);
+    app.set('gettext fallback', options.fallback);
     app.setLocale(options.defaultLocale || 'en-US');
 
     // Setup locals for Express
@@ -162,6 +164,7 @@ function getText(textKey, locale) {
 
     var app = getExpressApp(this);
     var gt = app.set('gettext instance');
+    var fallback = app.set('gettext fallback');
 
     var targetLocaleKey = getLocaleKey(locale || this.getLocale());
     var text = gt._getTranslation(targetLocaleKey, textKey);
@@ -173,9 +176,13 @@ function getText(textKey, locale) {
     }
 
     if(!text) {
-        // Fallback to text key
-        text = '[MISSING]' + textKey;
+        text = fallback(textKey, locale);
     }
 
     return text;
 };
+
+function defaultFallback(textKey) {
+    // Fallback to text key
+    return '[MISSING]' + textKey;
+}
