@@ -18,6 +18,6 @@
   "dependencies": {
     "glob": "~4.0.5",
     "locale": "0.0.17",
-    "node-gettext": "~0.2.14"
+    "node-gettext": "~1.0.1"
   }
 }
