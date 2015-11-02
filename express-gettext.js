@@ -167,12 +167,12 @@ function getText(textKey, locale) {
     var fallback = app.set('gettext fallback');
 
     var targetLocaleKey = getLocaleKey(locale || this.getLocale());
-    var text = gt._getTranslation(targetLocaleKey, textKey);
+    var text = gt.dgettext(targetLocaleKey, textKey);
 
     if(!text) {
         // Fallback to default langauge
         targetLocaleKey = getLocaleKey(this.getDefaultLocale());
-        text = gt._getTranslation(targetLocaleKey, textKey);
+        text = gt.dgettext(targetLocaleKey, textKey);
     }
 
     if(!text) {
